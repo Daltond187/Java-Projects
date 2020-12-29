@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class Assignment_11 {
+	
+	static Scanner console = new Scanner(System.in);
+	public static void main(String[] args) {
+		String romanNumeral;
+		int total = 0;
+		
+		System.out.print("Please enter your Roman numeral: ");
+		romanNumeral = console.next().toUpperCase();
+		
+		char[] roman = new char[romanNumeral.length()];
+		
+		for(int i = 0; i < romanNumeral.length(); i++) {
+			roman[i] = romanNumeral.charAt(i);
+		}
+		
+		for(char c:roman) {
+			switch(c) {
+				case 'M':
+					total += 1000;
+					break;
+				case 'D':
+					total += 500;
+					break;
+				case 'C':
+					total += 100;
+					break;
+				case 'L':
+					total += 50;
+					break;
+				case 'X':
+					total += 10;
+					break;
+				case 'V':
+					total += 5;
+					break;
+				case 'I':
+					total += 1;
+					break;
+				default:
+					System.out.print("One of the letters in your roman numeral is not recognized, exiting...");
+					System.exit(0);
+					break;
+				
+			}
+		}
+		
+		//remove the two extra to total when "IV" and "IX" add to 6 and 11 respectively instead of 4 and 9 
+		if(romanNumeral.substring(romanNumeral.length() - 2).equals("IV") || romanNumeral.substring(romanNumeral.length() - 2).equals("IX")) {
+			total -= 2;
+		}
+		
+		System.out.print("You're roman numeral is: " + total);
+		
+		
+		
+		
+		
+	}
+
+}
