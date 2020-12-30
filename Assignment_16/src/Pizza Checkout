@@ -1,0 +1,227 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class Chapter_16_Work_Along extends JFrame {
+	private static final int WIDTH = 510;
+	private static final int HEIGHT = 430;
+	
+	private int intBold = Font.PLAIN;
+	private int intItalic = Font.PLAIN;
+	
+	private JCheckBox tomatoCB, greenPepperCB, blackOliveCB, mushroomCB, extraCheeseCB, pepperoniCB, sausageCB;
+	private JRadioButton smallRB, mediumRB, largeRB;
+	private JRadioButton thinCrustRB, mediumCrustRB, panPizzaRB;
+	private ButtonGroup pizzaSizeBGroup, pizzaTypeBGroup;
+	
+	private JTextArea selectionTextArea;
+	
+	private JButton processOrderB;
+	private JLabel orderL;
+	
+	private EventHandler eHandler;
+	
+	public Chapter_16_Work_Along() {
+		super("Pizza Shop");
+		Container pane = getContentPane();
+		setLayout(null);
+		
+		eHandler = new EventHandler();
+		
+		tomatoCB = new JCheckBox("Tomato");
+		greenPepperCB = new JCheckBox("Green Pepper");
+		blackOliveCB = new JCheckBox("Black Olive");
+		mushroomCB = new JCheckBox("Mushrooms");
+		extraCheeseCB = new JCheckBox("Extra Cheese");
+		pepperoniCB = new JCheckBox("Pepperoni");
+		sausageCB = new JCheckBox("Sausage");
+		
+		tomatoCB.setSize(120, 30);
+		greenPepperCB.setSize(120, 30);
+		blackOliveCB.setSize(120, 30);
+		mushroomCB.setSize(120, 30);
+		extraCheeseCB.setSize(120, 30);
+		pepperoniCB.setSize(120, 30);
+		sausageCB.setSize(120, 30);
+		
+		tomatoCB.setLocation(40, 85);
+		greenPepperCB.setLocation(40, 110);
+		blackOliveCB.setLocation(40, 135);
+		mushroomCB.setLocation(40, 160);
+		extraCheeseCB.setLocation(40, 185);
+		pepperoniCB.setLocation(40, 210);
+		sausageCB.setLocation(40, 235);
+		
+		add(tomatoCB);
+		add(greenPepperCB);
+		add(blackOliveCB);
+		add(mushroomCB);
+		add(extraCheeseCB);
+		add(pepperoniCB);
+		add(sausageCB);
+		
+		smallRB = new JRadioButton("Small: $6.50", true);
+		mediumRB = new JRadioButton("Medium: $8.50");
+		largeRB = new JRadioButton("Large: $10.00");
+		
+		smallRB.setSize(120, 30);
+		mediumRB.setSize(120, 30);
+		largeRB.setSize(120, 30);
+		
+		smallRB.setLocation(220, 90);
+		mediumRB.setLocation(220, 130);
+		largeRB.setLocation(220, 170);
+		
+		pizzaSizeBGroup = new ButtonGroup();
+		pizzaSizeBGroup.add(smallRB);
+		pizzaSizeBGroup.add(mediumRB);
+		pizzaSizeBGroup.add(largeRB);
+		
+		add(smallRB);
+		add(mediumRB);
+		add(largeRB);
+		
+		thinCrustRB = new JRadioButton("Thin Crust", true);
+		mediumCrustRB = new JRadioButton("Medium Crust");
+		panPizzaRB = new JRadioButton("Pan Pizza");
+		
+		thinCrustRB.setSize(120, 30);
+		mediumCrustRB.setSize(120, 30);
+		panPizzaRB.setSize(120, 30);
+		
+		thinCrustRB.setLocation(370, 130);
+		mediumCrustRB.setLocation(370, 170);
+		panPizzaRB.setLocation(370, 210);
+		
+		pizzaTypeBGroup = new ButtonGroup();
+		pizzaTypeBGroup.add(thinCrustRB);
+		pizzaTypeBGroup.add(mediumCrustRB);
+		pizzaTypeBGroup.add(panPizzaRB);
+		
+		add(thinCrustRB);
+		add(mediumCrustRB);
+		add(panPizzaRB);
+		
+		
+		processOrderB = new JButton("Process Selection");
+		processOrderB.setSize(200, 30);
+		processOrderB.setLocation(210, 220);
+		add(processOrderB);
+		processOrderB.addActionListener(eHandler);
+		
+		orderL = new JLabel("Your Order:");
+		orderL.setSize(100, 30);
+		orderL.setLocation(40, 270);
+		add(orderL);
+		
+		selectionTextArea = new JTextArea();
+		selectionTextArea.setVisible(true);
+		selectionTextArea.setSize(450, 100);
+		selectionTextArea.setLocation(40, 300);
+		add(selectionTextArea);
+		
+		setSize(WIDTH, HEIGHT);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.setColor(Color.red);
+		g.setFont(new Font("Ariel", intBold + intItalic, 24));
+		
+		g.drawString("Welcome to Home Style Pizza", 30, 60);
+		
+		g.setFont(new Font("Ariel", intBold + intItalic, 12));
+		
+		g.drawString("Each Topping: $1.50", 40, 110);
+		g.drawRect(30, 90, 150, 210);
+		
+		g.drawString("Pizza Size", 220, 110);
+		g.drawRect(210, 90, 130, 150);
+		
+		g.drawString("Pizza Size", 370, 110);
+		g.drawRect(360, 90, 130, 150);
+		
+	}
+		private class EventHandler implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				double amountDue = 0.0;
+				String str = "";
+				
+				if(e.getSource() == processOrderB) {
+					str += "Pizza Type: ";
+					
+					if(thinCrustRB.isSelected()) {
+						str += "Thin Crust \n";
+					}
+					else if(mediumCrustRB.isSelected()) {
+						str += "Medium Crust \n";
+					}
+					else if(panPizzaRB.isSelected()) {
+						str += "Pan Pizza \n";
+					}
+					
+					str += "Pizza Size: ";
+					
+					if(smallRB.isSelected()) {
+						str += "Small \n";
+						amountDue += 6.50;
+					}
+					else if(mediumRB.isSelected()) {
+						str += "Medium \n";
+						amountDue += 8.50;
+					}
+					else if(largeRB.isSelected()) {
+						str += "Large \n";
+						amountDue += 10.00;
+					}
+					
+					
+					str += "Toppings: ";
+					
+					if(tomatoCB.isSelected()) {
+						str += "Tomato \n";
+						amountDue += 1.50;
+					}
+					if(greenPepperCB.isSelected()) {
+						str += "Green Pepper \n";
+						amountDue += 1.50;
+					}
+					if(blackOliveCB.isSelected()) {
+						str += "Black Olive \n";
+						amountDue += 1.50;
+					}
+					if(mushroomCB.isSelected()) {
+						str += "Mushroom \n";
+						amountDue += 1.50;
+					}
+					if(extraCheeseCB.isSelected()) {
+						str += "Extra Cheese \n";
+						amountDue += 1.50;
+					}
+					if(pepperoniCB.isSelected()) {
+						str += "Pepperoni \n";
+						amountDue += 1.50;
+					}
+					if(sausageCB.isSelected()) {
+						str += "Sausage \n";
+						amountDue += 1.50;
+					}
+					
+					str += "\nAmount Due: $" + amountDue;
+					selectionTextArea.setText(str);
+					
+				}//endProcessOrder if
+				
+				repaint();
+			}
+		}
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Chapter_16_Work_Along pizzaShop = new Chapter_16_Work_Along();
+	}
+
+}
