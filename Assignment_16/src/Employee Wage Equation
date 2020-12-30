@@ -1,0 +1,88 @@
+import java.util.*;
+public class DViningProgram1 {
+
+	public static void main(String[] args) {
+		final double FED_TAX = 0.035;
+		final double STATE_TAX = 0.0175;
+		final double SOC_SEC = 0.05;
+		final double HEALTH_INS = 100.00;
+		final double DENTAL_INS = 30.00;
+		final double RETIRE_FULL = 0.08;
+		final double RETIRE_PART = 0.04;
+		
+		Scanner console = new Scanner(System.in);
+		String empName = " ";
+		int hoursWorked = 0;
+		double payRate = 0;
+		double grossPay = 0;
+		double fedPay = 0;
+		double statePay = 0;
+		double socialPay = 0;
+		double retirePayFull = 0;
+		double retirePayPart = 0;
+		
+		double finalPay_Full = 0;
+		double finalPay_Part = 0;
+		
+		
+		while(empName != "Exit") {
+			System.out.println("Enter the employee’s name (Exit will terminate program): ");
+			empName = console.nextLine();
+			
+			if(empName.equals("Exit")) {
+				System.exit(0);
+			}
+			
+			System.out.println("Enter hours worked: ");
+			hoursWorked = console.nextInt();
+			
+			if(hoursWorked > 168) {
+				System.out.println("Impossible number of hours, please start over.");
+				continue;
+			}
+			
+			System.out.println("Enter hourly pay rate: ");
+			payRate = console.nextDouble();
+			
+			grossPay = hoursWorked * payRate;
+			
+			fedPay = grossPay * FED_TAX;
+			statePay = grossPay * STATE_TAX;
+			socialPay = grossPay * SOC_SEC;
+			
+			retirePayFull = grossPay * RETIRE_FULL;
+			retirePayPart = grossPay * RETIRE_PART;
+
+			finalPay_Full = grossPay - (fedPay + statePay + socialPay + HEALTH_INS + DENTAL_INS + retirePayFull);
+			finalPay_Part = grossPay - (fedPay + statePay + socialPay + retirePayPart);
+			
+			System.out.println("Employee Name: " + empName);
+			System.out.println("Employees Hourly Pay: " + payRate);
+			System.out.println("Hours Worked: " + hoursWorked);
+			System.out.println("Gross Pay: " + grossPay);
+			
+			if(hoursWorked >=  40) {
+				System.out.println("Full time or Part time employee: Full time");
+			}
+			else {
+				System.out.println("Full time or Part time employee: Part time");
+			}
+			
+			System.out.println("Federal tax paid: " + fedPay);
+			System.out.println("State tax paid: " + statePay);
+			System.out.println("Social Security paid: " + socialPay);
+			
+			if(hoursWorked >= 40) {
+				System.out.println("Health Insurance paid: " + HEALTH_INS);
+				System.out.println("Dental Insurance paid: " + DENTAL_INS);
+				System.out.println("Retirement paid: " + retirePayFull);
+				System.out.println("Net Pay (after taxes): " + finalPay_Full);
+			}
+			else {
+				System.out.println("Retirement paid: " + retirePayPart);
+				System.out.println("Net Pay (after taxes): " + finalPay_Part);
+			}
+		}
+	}
+
+}
